@@ -17,7 +17,7 @@ export default async function (req, res) {
 
   const { audience, subjectLine, tone, emailCopy, numLines } = req.body;
 
-  // Add any validation for inputs here...
+  // Add any validation for inputs here...ooo
 
   try {
     const prompt = `
