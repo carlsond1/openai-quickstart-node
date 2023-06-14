@@ -38,7 +38,7 @@ export default async function (req, res) {
       temperature: 0.5,
       max_tokens: 60 * numLines,
     });
-// this is for copy maker
+    
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch (error) {
     // Consider adjusting the error handling logic for your use case
