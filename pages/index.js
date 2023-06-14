@@ -10,7 +10,7 @@ export default function Home() {
   async function onSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("/api/convert", {
+      const response = await fetch("/api/copyChecker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,12 +36,12 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Document Tone Converter</title>
+        <title>Copy Checker</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h3>Convert the Tone of Your Document</h3>
+        <h3>Check Your Document Copy</h3>
         <form onSubmit={onSubmit}>
           <textarea name="document" placeholder="Enter document" value={documentInput} onChange={(e) => setDocumentInput(e.target.value)} />
           <select name="tone" value={toneInput} onChange={(e) => setToneInput(e.target.value)}>
@@ -50,7 +50,7 @@ export default function Home() {
             <option value="business fun">Business Fun</option>
             <option value="business formal">Business Formal</option>
           </select>
-          <input type="submit" value="Convert Tone" />
+          <input type="submit" value="Check Copy" />
         </form>
         <div className={styles.result}>
           <p>{result}</p>
