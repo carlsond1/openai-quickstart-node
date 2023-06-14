@@ -34,11 +34,11 @@ export default async function (req, res) {
   
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(audience, country, tone, copy),
+      prompt: prompt,
       temperature: 0.5,
-      max_tokens: 500,
+      max_tokens: 60 * numLines,
     });
-// this is for subj line
+// this is for copy maker
     res.status(200).json({ result: completion.data.choices[0].text });
   } catch (error) {
     // Consider adjusting the error handling logic for your use case
@@ -54,8 +54,4 @@ export default async function (req, res) {
       });
     }
   }
-}
-
-function generatePrompt(audience, country, tone, copy) {
-  return `As an AI language model, I am checking the copy for the specified audience "${audience}" in "${country}" with a "${tone}" tone. The copy to check and adjust if necessary is as follows:\n\n"${copy}"\n\nAdjusted copy:`;
 }

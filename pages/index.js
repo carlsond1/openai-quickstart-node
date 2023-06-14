@@ -4,24 +4,26 @@ import styles from "./index.module.css";
 
 export default function Home() {
   const [audienceInput, setAudienceInput] = useState("");
-  const [countryInput, setCountryInput] = useState("");
+  const [subjectLineInput, setSubjectLineInput] = useState("");
   const [toneInput, setToneInput] = useState("");
-  const [copyInput, setCopyInput] = useState("");
-  const [copyOutput, setCopyOutput] = useState("");
+  const [emailCopyInput, setEmailCopyInput] = useState("");
+  const [numLinesInput, setNumLinesInput] = useState("");
+  const [result, setResult] = useState([]);
 
   async function onSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("/api/checkcopy", {
+      const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           audience: audienceInput,
-          country: countryInput,
+          subjectLine: subjectLineInput,
           tone: toneInput,
-          copy: copyInput,
+          emailCopy: emailCopyInput,
+          numLines: numLinesInput,
         }),
       });
 
@@ -30,8 +32,9 @@ export default function Home() {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
-      setCopyOutput(data.result.trim());
+      setResult(data.result.trim().split("\n"));
     } catch (error) {
+      // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
     }
@@ -40,7 +43,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Copy Check</title>
+        <title>Email Subject Line Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
