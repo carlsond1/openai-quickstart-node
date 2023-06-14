@@ -54,17 +54,17 @@ export default function Home() {
           <input type="text" name="subjectLine" placeholder="Enter proposed subject line" value={subjectLineInput} onChange={(e) => setSubjectLineInput(e.target.value)} />
           <select name="tone" value={toneInput} onChange={(e) => setToneInput(e.target.value)}>
             <option value="">--Select Tone--</option>
-            <option value="fun">Fun</option>
-            <option value="corporate">Corporate</option>
-            <option value="fun and corporate">Fun and Corporate</option>
+            <option value="business casual">Business Casual</option>
+            <option value="business fun">Business Fun</option>
+            <option value="business formal">Business Formal</option>
           </select>
           <textarea name="emailCopy" placeholder="Enter email copy" value={emailCopyInput} onChange={(e) => setEmailCopyInput(e.target.value)} />
           <input type="number" name="numLines" placeholder="Enter number of subject lines" value={numLinesInput} onChange={(e) => setNumLinesInput(e.target.value)} />
           <input type="submit" value="Generate subject lines" />
         </form>
-        <ul className={styles.result}>
-          {result.map((subjectLine, index) => <li key={index}>{subjectLine}</li>)}
-        </ul>
+        <div className={styles.result}>
+          {result.map((subjectLine, index) => <p key={index}>{subjectLine}</p>)}
+        </div>
         <div className={styles.explanation}>
           <h4>How This Works</h4>
           <p>

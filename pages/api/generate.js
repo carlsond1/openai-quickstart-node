@@ -21,30 +21,21 @@ export default async function (req, res) {
 
   try {
     const prompt = `
-    Given these examples of email subject lines:
-    1. Join Wipro and Edgile at the 2022 cyber security summit
-    2. Join Wipro at CS4CA
-    3. Join Wipro and Edgile at Navigate 2022
-    4. Join us for a virtual bourban and bbq event
-    5. Join us at Indianapolis Speedway Save the date - May 16
-    6. Join Wipro and Edgile for a private dinner
-    7. Edgile and Wipro at the Gartner IAM Summit 2023
-    8. Join Wipro, Edgile, and Partners for happy hour!
-    9. Join Wipro at ZenithLive. Discover how we secure the modern enterprise
-    10. Prepare your operational resiliency for changing rules and evolving threats
-    11. Why strategic OT security investments enhance operational resiliency
-    12. Join us at RSAC 2023. Learn how we secure and defend the modern enterprise
+      Edgile is a company founded in 2001 with a mission to deliver strategic cybersecurity and risk management services to Fortune 500 companies. They offer services such as consulting, managed services, and provision of harmonized regulatory content. They primarily serve large organizations in the healthcare, financial services, energy, and retail industries. 
 
-    any mention of edgile should be capitalized as "Edgile" and Wipro is always capitalized as "Wipro"
-
-    I want you to act as an expert in generating email subject lines using the examples given above. You should write the subject lines for "${subjectLine}". 
-    The given audience will be "${audience}", it will have a "${tone}" tone and have the email copy of "${emailCopy}". You will generate ${numLines} email subject lines:
+      Edgile is known for its brand personality traits of expertise, trustworthiness, strategic vision, collaboration, and innovation. They communicate with a voice that is confident, engaging, respectful, and optimistic. Their writing style is professional, yet accessible, using a balanced mix of technical and everyday language, and favoring active voice for clarity and conciseness. 
+      
+      When communicating, they strive to showcase their authority in cybersecurity and risk management, while maintaining a tone that is confident and optimistic. They respect their audience's knowledge and challenges, and tailor their communication to suit C-suite executives and decision-makers at large organizations.
+      
+      However, they avoid overusing jargon without clear explanations, using humor that might trivialize the importance of cybersecurity, disregarding cultural considerations, and overcomplicating messages.
+      
+      Given this, please generate ${numLines} email subject lines for an ${audience} audience, with a ${tone} tone, about the topic of ${subjectLine}. The email copy is as follows: ${emailCopy}.
     `;
 
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
-      temperature: 1,
+      temperature: 0.5,
       max_tokens: 60 * numLines,
     });
 
