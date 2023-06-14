@@ -15,7 +15,7 @@ export default async function (req, res) {
     return;
   }
 
-  const { document, tone } = req.body;
+  const { document, tone, audience, country } = req.body;
 
   try {
     const toneDescriptions = {
@@ -29,13 +29,14 @@ export default async function (req, res) {
 
     Edgile is known for its brand personality traits of expertise, trustworthiness, strategic vision, collaboration, and innovation. They communicate with a voice that is confident, engaging, respectful, and optimistic. Their writing style is professional, yet accessible, using a balanced mix of technical and everyday language, favoring active voice for clarity and conciseness.
 
-    When communicating, they strive to showcase their authority in cybersecurity and risk management, while maintaining a tone that is confident and optimistic. They respect their audience's knowledge and challenges, and tailor their communication to suit C-suite executives and decision-makers at large organizations.
-
-    However, they avoid overusing jargon without clear explanations, using humor that might trivialize the importance of cybersecurity, disregarding cultural considerations, and overcomplicating messages.
+    The intended audience for this document is: "${audience}".
+    The document is intended for readers in: "${country}".
 
     The selected tone for this document is: ${toneDescriptions[tone]}
 
     Given this, please evaluate the following copy and suggest improvements to better align with Edgile's brand voice and tone: "${document}"
+
+    You should start your answer with "Revised Copy: ".
 `;
 
     const completion = await openai.createCompletion({
@@ -45,7 +46,9 @@ export default async function (req, res) {
       max_tokens: 1024,
     });
 
-    res.status(200).json({ result: completion.data.choices[0].text });
+    const revisedCopy = completion.data.choices[0].text.trim();
+
+    res.status(200).json({ result: revisedCopy });
   } catch (error) {
     if (error.response) {
       console.error(error.response.status, error.response.data);
