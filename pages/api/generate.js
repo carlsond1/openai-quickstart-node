@@ -31,7 +31,7 @@ export default async function (req, res) {
       
       Given this, please generate ${numLines} email subject lines for an ${audience} audience, with a ${tone} tone, about the topic of ${subjectLine}. The email copy is as follows: ${emailCopy}.
     `;
-
+ 
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: prompt,
