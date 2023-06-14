@@ -3,18 +3,26 @@ import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
-  const [result, setResult] = useState();
+  const [audienceInput, setAudienceInput] = useState("");
+  const [countryInput, setCountryInput] = useState("");
+  const [toneInput, setToneInput] = useState("");
+  const [copyInput, setCopyInput] = useState("");
+  const [copyOutput, setCopyOutput] = useState("");
 
   async function onSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("/api/checkcopy", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({
+          audience: audienceInput,
+          country: countryInput,
+          tone: toneInput,
+          copy: copyInput,
+        }),
       });
 
       const data = await response.json();
@@ -22,10 +30,8 @@ export default function Home() {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
-      setResult(data.result);
-      setAnimalInput("");
-    } catch(error) {
-      // Consider implementing your own error handling logic here
+      setCopyOutput(data.result.trim());
+    } catch (error) {
       console.error(error);
       alert(error.message);
     }
@@ -34,24 +40,28 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
-        <link rel="icon" href="/dog.png" />
+        <title>Copy Check</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <h3>Check Your Copy</h3>
         <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
-          />
-          <input type="submit" value="Generate names" />
+          <input type="text" name="audience" placeholder="Enter audience" value={audienceInput} onChange={(e) => setAudienceInput(e.target.value)} />
+          <input type="text" name="country" placeholder="Enter country" value={countryInput} onChange={(e) => setCountryInput(e.target.value)} />
+          <select name="tone" value={toneInput} onChange={(e) => setToneInput(e.target.value)}>
+            <option value="">--Select Tone--</option>
+            <option value="business">Business</option>
+            <option value="casual">Casual</option>
+            <option value="formal">Formal</option>
+          </select>
+          <textarea name="copy" placeholder="Enter copy" value={copyInput} onChange={(e) => setCopyInput(e.target.value)} />
+          <input type="submit" value="Check Copy" />
         </form>
-        <div className={styles.result}>{result}</div>
+        <div className={styles.result}>
+          <h4>Output</h4>
+          <p>{copyOutput}</p>
+        </div>
       </main>
     </div>
   );
